@@ -1,0 +1,30 @@
+# Wszystkie parametry projektu w jednym miejscu. Opis każdego: docs/dziennik.md.
+seed: 42                      # powtarzalność podziału i treningu
+
+paths:
+  raw_images: data/raw        # surowe zdjęcia (poza gitem)
+  labels: data/labels         # etykiety w formacie YOLO (poza gitem)
+  splits: data/splits         # listy train/val/test (poza gitem)
+  results: results            # CSV i obrazy z detekcjami (poza gitem)
+  source_materials: materialy-pasa   # materiały prowadzącego (poza gitem)
+
+data:
+  split_unit: object          # dzielimy po obiekcie/scenie (FOD_xx), nie po zdjęciu
+  split_ratio: {train: 0.6, val: 0.2, test: 0.2}
+
+detect:                       # poziom 1: anomalia, jedna klasa
+  model: yolo11n.pt           # mały model, wstępnie wytrenowany (transfer learning)
+  class_names: [obiekt_obcy]
+  imgsz: 1280                 # małe obiekty na dużym zdjęciu wymagają większej rozdzielczości
+  conf_threshold: 0.25        # próg pewności (przemiatany w eksperymencie)
+  iou_threshold: 0.5          # próg IoU uznania detekcji za trafioną
+
+classify:                     # poziom 2: rozpoznanie klasy (później)
+  enabled: false              # eksperyment na grubych kategoriach, włączany po poziomie 1
+  class_names: [metal, plastik, butelka, guma, folia_tkanina, drewno_karton_kamien]   # robocze
+
+experiment:
+  conf_sweep: [0.05, 0.10, 0.25, 0.50, 0.75]
+
+alert:
+  min_confidence: 0.25        # od jakiej pewności zgłaszamy alert

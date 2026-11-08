@@ -1,0 +1,10 @@
+# Każda biblioteka i powód: patrz docs/dziennik.md, sekcja „Po co jest każdy plik".
+ultralytics>=8.3      # YOLO: model, trening, inferencja
+opencv-python>=4.8    # wczytywanie obrazów, rysowanie ramek
+numpy>=1.24           # operacje na tablicach (obrazy, ramki)
+pandas>=2.0           # tabele wyników (CSV)
+pyyaml>=6.0           # wczytanie config.yaml
+matplotlib>=3.7       # wykresy (krzywa precision/recall, próg pewności)
+scikit-learn>=1.3     # metryki pomocnicze i podział danych
+jupyter>=1.0          # notebook
+nbconvert>=7.0        # uruchomienie notebooka z linii poleceń (weryfikacja)

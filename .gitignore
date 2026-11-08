@@ -1,0 +1,17 @@
+# dane i wyniki (duże, materiały prowadzącego nie trafiają do repo)
+materialy-pasa/
+data/*
+!data/README.md
+results/*
+!results/.gitkeep
+runs/
+# wagi modeli
+*.pt
+*.onnx
+# Python / Jupyter
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+# system
+.DS_Store
