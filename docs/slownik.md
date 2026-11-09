@@ -8,7 +8,7 @@ Spis: [Adnotacja](#adnotacja) · [Augmentacja](#augmentacja) · [Detekcja obiekt
 
 **Definicja.** Informacja opisująca zawartość obrazu, przygotowana przez człowieka lub narzędzie: dla detekcji obiektów jest to zwykle klasa obiektu oraz ramka ograniczająca (prostokąt w układzie pikseli obrazu).
 
-**W projekcie.** Adnotacja to prostokąt wokół obiektu obcego na zdjęciu. Format YOLO zapisuje ją jako wiersz `klasa x_środka y_środka szerokość wysokość`, ze współrzędnymi znormalizowanymi do przedziału 0–1 (opis w `data/README.md`). Wymagania przedmiotu dopuszczają, że adnotacje zostaną udostępnione, co wymaga potwierdzenia.
+**W projekcie.** Adnotacja to prostokąt wokół obiektu obcego na zdjęciu. Format YOLO zapisuje ją jako wiersz `klasa x_środka y_środka szerokość wysokość`, ze współrzędnymi znormalizowanymi do przedziału 0–1 (opis w `data/README.md`). Adnotacje przygotowujemy samodzielnie, bo nie zostaną udostępnione.
 
 **Źródło.** Wymagania przedmiotu „Projekt zespołowy” (`Projekt_zespolowy.pdf`). Do uzupełnienia o źródło naukowe.
 
@@ -24,7 +24,7 @@ Spis: [Adnotacja](#adnotacja) · [Augmentacja](#augmentacja) · [Detekcja obiekt
 
 **Definicja.** Zadanie widzenia komputerowego polegające na ustaleniu, jakie obiekty znajdują się na obrazie i gdzie: dla każdego wykrytego obiektu wynikiem jest ramka ograniczająca, klasa i wartość pewności.
 
-**W projekcie.** Mamy jedną klasę, „obiekt obcy”. Detekcja jest pierwszym poziomem systemu. Drugi poziom, rozpoznanie klasy przedmiotu, jest poza zakresem.
+**W projekcie.** Mamy jedną klasę, „obiekt obcy”. Detekcja jest pierwszym poziomem systemu. Drugi poziom, rozpoznawanie kategorii przedmiotu, jest tylko małym eksperymentem. Pełne rozpoznawanie klas jest poza zakresem.
 
 **Źródło.** Redmon i in. (2016), gdzie detekcję ujęto jako pojedynczy problem regresji ramek i prawdopodobieństw klas.
 
@@ -50,7 +50,7 @@ Spis: [Adnotacja](#adnotacja) · [Augmentacja](#augmentacja) · [Detekcja obiekt
 
 **Definicja.** Prawda odniesienia: dane uznane za wzorcowe, z którymi porównuje się wyniki metody (adnotacje, wskazanie obecności obiektu).
 
-**W projekcie.** Zdjęcia z folderu „obiektów na pasie (ground truth)” pokazują obiekt w miejscu położenia. Adnotacje ramek, gdy będą dostępne, pełnią rolę prawdy odniesienia dla oceny lokalizacji.
+**W projekcie.** Zdjęcia z folderu „obiektów na pasie (ground truth)” pokazują obiekt w miejscu położenia. Przygotowane przez nas adnotacje ramek pełnią rolę prawdy odniesienia dla oceny lokalizacji.
 
 **Źródło.** Do uzupełnienia o źródło. Użycie terminu zgodne z nazwą folderu z materiałami prowadzącego.
 

@@ -1,4 +1,4 @@
-# Każda biblioteka i powód: patrz docs/dziennik.md, sekcja „Po co jest każdy plik".
+# Biblioteki projektu: YOLO, obrazy, dane, wykresy, notebook.
 ultralytics>=8.3      # YOLO: model, trening, inferencja
 opencv-python>=4.8    # wczytywanie obrazów, rysowanie ramek
 numpy>=1.24           # operacje na tablicach (obrazy, ramki)

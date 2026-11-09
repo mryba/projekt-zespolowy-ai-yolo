@@ -1,4 +1,4 @@
-# Wszystkie parametry projektu w jednym miejscu. Opis każdego: docs/dziennik.md.
+# Wszystkie parametry projektu w jednym miejscu.
 seed: 42                      # powtarzalność podziału i treningu
 
 paths:
@@ -19,12 +19,9 @@ detect:                       # poziom 1: anomalia, jedna klasa
   conf_threshold: 0.25        # próg pewności (przemiatany w eksperymencie)
   iou_threshold: 0.5          # próg IoU uznania detekcji za trafioną
 
-classify:                     # poziom 2: rozpoznanie klasy (później)
-  enabled: false              # eksperyment na grubych kategoriach, włączany po poziomie 1
+classify:                     # poziom 2: mały eksperyment na grubych kategoriach
+  enabled: false              # włączany po poziomie 1
   class_names: [metal, plastik, butelka, guma, folia_tkanina, drewno_karton_kamien]   # robocze
 
 experiment:
   conf_sweep: [0.05, 0.10, 0.25, 0.50, 0.75]
-
-alert:
-  min_confidence: 0.25        # od jakiej pewności zgłaszamy alert

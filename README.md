@@ -25,7 +25,7 @@ W zakresie projektu:
 - Podział danych na poziomie obiektu lub nagrania, jeden ustalony zbiór testowy, dobór progów na zbiorze walidacyjnym.
 - Ewaluacja (poziom obrazu i lokalizacja) oraz eksperyment z [progiem pewności](docs/slownik.md#próg-pewności).
 - Szkielet alertu: schemat informacji przekazywanej po wykryciu obiektu.
-- Dokumentacja: opis metody, eksperymentu i dziennik prac.
+- Dokumentacja: opis metody i eksperymentu oraz słownik pojęć.
 
 ## Poza zakresem
 
@@ -56,7 +56,7 @@ Materiały pochodzą z trzech źródeł (katalog `materialy-pasa/`, poza repozyt
 - **Zdjęcia obiektów na pasie** (ground truth): 33 zdjęcia z telefonów, z bliska.
 - **Zdjęcia obiektów z miarką**: 22 zdjęcia z aparatu wraz z opisem i wymiarami obiektów (`lista_fod.docx`).
 
-Obiektów jest 22 (`FOD_01`–`FOD_22`). Zdjęcia nie zawierają adnotacji (ramek), a w plikach z drona nie ma metadanych o pozycji ani wysokości. Wymagania przedmiotu przewidują, że dane referencyjne i adnotacje mogą zostać udostępnione, co należy potwierdzić u prowadzącego. Format danych roboczych opisuje [data/README.md](data/README.md).
+Obiektów jest 22 (`FOD_01`–`FOD_22`). Zdjęcia nie zawierają adnotacji (ramek), a w plikach z drona nie ma metadanych o pozycji ani wysokości. Adnotacje ani dodatkowe materiały nie zostaną udostępnione, dlatego ramki wokół obiektów przygotowujemy samodzielnie. Format danych roboczych opisuje [data/README.md](data/README.md).
 
 ## Status
 
@@ -64,13 +64,86 @@ Szkielet projektu: struktura, konfiguracja i notebook z opisem sekcji. Funkcje w
 
 ## Uruchomienie
 
+Wymagany jest Python 3.9 lub nowszy (zalecane 3.10–3.12). Komendy wpisujemy w terminalu, w katalogu głównym projektu. Materiały ze zdjęciami (`materialy-pasa/`) nie są częścią repozytorium i trzeba je skopiować osobno.
+
 ```bash
-python3 -m venv .venv && source .venv/bin/activate
+git clone https://github.com/mryba/projekt-zespolowy-ai-yolo.git
+cd projekt-zespolowy-ai-yolo
+```
+
+### Szybki start (skrypt)
+
+Skrypt tworzy środowisko `.venv` (jeśli go brak), instaluje zależności i uruchamia notebook. Można go uruchamiać wielokrotnie.
+
+| System | Komenda |
+|---|---|
+| macOS, Linux | `./scripts/uruchom.sh` |
+| Windows (cmd lub PowerShell) | `scripts\uruchom.bat` |
+
+Jeśli skrypt nie ma uprawnień do uruchomienia (macOS, Linux): `chmod +x scripts/uruchom.sh`.
+
+### Co robią komendy (ręcznie)
+
+| Krok | Komenda (macOS, Linux) | Opis |
+|---|---|---|
+| 1 | `python3 -m venv .venv` | Tworzy środowisko wirtualne w folderze `.venv`, czyli izolowaną kopię Pythona. Biblioteki projektu nie mieszają się z systemowymi. |
+| 2 | `source .venv/bin/activate` | Włącza to środowisko w bieżącym terminalu. Na początku linii pojawia się `(.venv)`. |
+| 3 | `pip install -r requirements.txt` | Instaluje biblioteki z pliku `requirements.txt` (`-r` oznacza „czytaj z pliku”). Pobieranie jest duże, bo `ultralytics` wymaga PyTorch. |
+| 4 | `jupyter notebook notebooks/projekt_yolo.ipynb` | Uruchamia lokalny serwer Jupyter i otwiera notebook w przeglądarce. Zatrzymanie: `Ctrl+C` w terminalu. |
+
+Kroki 1–2 można połączyć operatorem `&&` (druga komenda wykona się tylko po powodzeniu pierwszej).
+
+### macOS
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 jupyter notebook notebooks/projekt_yolo.ipynb
 ```
 
-Sprawdzenie bez przeglądarki:
+Jeśli brakuje Pythona: instalator z python.org albo `brew install python`.
+
+### Linux
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+jupyter notebook notebooks/projekt_yolo.ipynb
+```
+
+Na Debianie i Ubuntu może brakować modułu `venv`: `sudo apt install python3-venv python3-pip`. Domyślnie instalowany jest PyTorch z obsługą CUDA, więc pobieranie jest większe (kilka GB).
+
+### Windows
+
+Na Windowsie używamy `python` (lub `py`) zamiast `python3`, a komendy wpisujemy osobno.
+
+PowerShell:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+jupyter notebook notebooks\projekt_yolo.ipynb
+```
+
+Jeśli aktywacja zgłasza zablokowane skrypty, jednorazowo: `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
+
+Wiersz poleceń (cmd):
+
+```bat
+python -m venv .venv
+.venv\Scripts\activate.bat
+pip install -r requirements.txt
+jupyter notebook notebooks\projekt_yolo.ipynb
+```
+
+### Po uruchomieniu
+
+- Jeśli przeglądarka się nie otworzy, należy skopiować adres `http://localhost:8888/...?token=...` z terminala.
+- Wyłączenie środowiska: `deactivate`. Przy kolejnym uruchomieniu wystarczy aktywacja (krok 2) i krok 4, instalacji nie powtarzamy.
+- Sprawdzenie bez przeglądarki:
 
 ```bash
 jupyter nbconvert --to notebook --execute notebooks/projekt_yolo.ipynb --output-dir /tmp
@@ -82,6 +155,7 @@ jupyter nbconvert --to notebook --execute notebooks/projekt_yolo.ipynb --output-
 |---|---|
 | `config.yaml` | parametry: ścieżki, model, progi, podział danych |
 | `requirements.txt` | zależności |
+| `scripts/` | skrypty uruchomieniowe: `uruchom.sh` (macOS, Linux) i `uruchom.bat` (Windows) |
 | `notebooks/projekt_yolo.ipynb` | notebook z całym przebiegiem (9 sekcji) |
 | `src/` | kod: `data`, `detect`, `classify`, `report`, `evaluate`, `experiment`, `config` |
 | `data/`, `results/` | dane i wyniki, poza gitem |
@@ -89,6 +163,5 @@ jupyter nbconvert --to notebook --execute notebooks/projekt_yolo.ipynb --output-
 
 ## Dokumentacja
 
-- [docs/dziennik.md](docs/dziennik.md): przebieg prac krok po kroku, z uzasadnieniem decyzji.
 - [docs/slownik.md](docs/slownik.md): słownik pojęć z formalnymi definicjami i bibliografią.
 - [docs/metoda_i_eksperyment.md](docs/metoda_i_eksperyment.md): zarys metody i eksperymentu.

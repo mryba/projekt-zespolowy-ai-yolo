@@ -1,11 +1,12 @@
-"""Schemat alertu/raportu: co przekazujemy dalej po wykryciu obiektu obcego.
+"""Schemat alertu: co przekazujemy dalej po wykryciu obiektu obcego na zdjęciu.
 
-Cel alertu: ktoś może wysłać ekipę w to miejsce i usunąć obiekt, żeby następny
-samolot mógł bezpiecznie wystartować. Statusy: wykryty / rozpoznany / do rozpoznania.
+Położenie to identyfikator zdjęcia i ramka w pikselach. Status mówi, na jakim etapie
+jest obiekt: wykryty (poziom 1), rozpoznany do kategorii albo „do rozpoznania"
+(poziom 2, mały eksperyment).
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 
 
@@ -17,19 +18,8 @@ class Status(str, Enum):
 
 @dataclass
 class Alert:
-    image: str
-    box: tuple[float, float, float, float]  # x1, y1, x2, y2 w pikselach obrazu
+    image: str                                # identyfikator zdjęcia
+    box: tuple[float, float, float, float]    # x1, y1, x2, y2 w pikselach obrazu
     confidence: float
     status: Status = Status.DETECTED
-    label: str | None = None                # klasa po rozpoznaniu (poziom 2)
-    runway_position_m: float | None = None  # poza zakresem: pozycja na pasie (wymaga logów lotu), na razie puste
-
-
-@dataclass
-class FlightReport:
-    alerts: list[Alert] = field(default_factory=list)
-
-    @property
-    def runway_clear(self) -> bool:
-        """Pierwszy próg sukcesu: na pasie nie ma potencjalnie obcych elementów."""
-        return len(self.alerts) == 0
+    label: str | None = None                  # kategoria po rozpoznaniu (poziom 2)
