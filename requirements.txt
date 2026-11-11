@@ -1,6 +1,7 @@
 # Biblioteki projektu: YOLO, obrazy, dane, wykresy, notebook.
 ultralytics>=8.3      # YOLO: model, trening, inferencja
 opencv-python>=4.8    # wczytywanie obrazów, rysowanie ramek
+pillow>=9.0           # wczytywanie i konwersja obrazów
 numpy>=1.24           # operacje na tablicach (obrazy, ramki)
 pandas>=2.0           # tabele wyników (CSV)
 pyyaml>=6.0           # wczytanie config.yaml
